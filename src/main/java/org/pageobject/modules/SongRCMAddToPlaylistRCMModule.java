@@ -1,22 +1,20 @@
 package org.pageobject.modules;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.BasePage;
 
 import java.time.Duration;
 
-public class SongRCM_SelectPlaylistModule extends BasePage {
+public class SongRCMAddToPlaylistRCMModule extends BasePage {
 
-    public SongRCM_SelectPlaylistModule(WebDriver webDriver) {
+    public SongRCMAddToPlaylistRCMModule(WebDriver webDriver) {
         super(webDriver);
     }
-    public SearchResultModule attachToJustCreatedPlaylist() {
+    public PlaylistModule attachToJustCreatedPlaylist() {
         PlaylistModule playlist = new PlaylistModule(webDriver);
         String playlistName = playlist.checkPlaylistNameFromList(); // Получите имя плейлиста
 
@@ -32,6 +30,8 @@ public class SongRCM_SelectPlaylistModule extends BasePage {
             e.printStackTrace();
         }
 
-        return new SearchResultModule(webDriver);
+        webDriver.navigate().refresh();
+
+        return new PlaylistModule(webDriver);
     }
 }

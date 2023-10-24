@@ -21,12 +21,6 @@ public class PlaylistRCMModule extends BasePage {
         WebElement option = waitForVisibilityOf(editDetailsMenu);
         option.click();
 
-        try {
-            Thread.sleep(1000); // Пауза в 1 секунду
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return new EditDetailsModule(webDriver);
     }
 

@@ -17,13 +17,13 @@ public class SongRCMModule extends BasePage {
         super(webDriver);
     }
 
-    public SongRCM_SelectPlaylistModule selectAddToPlaylistMenu() {
+    public SongRCMAddToPlaylistRCMModule selectAddToPlaylistMenu() {
         WebElement option = waitForVisibilityOf(addToPlaylistMenu);
         option.click();
-         return new SongRCM_SelectPlaylistModule(webDriver);
+         return new SongRCMAddToPlaylistRCMModule(webDriver);
     }
 
-    public PlaylistModule selectremoveFromPlaylistMenu() {
+    public PlaylistModule selectRemoveFromPlaylistMenu() {
         WebElement option = waitForVisibilityOf(removeFromPlaylistMenu);
         option.click();
 

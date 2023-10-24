@@ -6,10 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.modules.PlaylistModule;
+import org.pageobject.pages.HomePage;
 import org.pageobject.pages.IndexPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -84,7 +84,7 @@ public class AppTest extends BaseTest {
         indexPage
                 .open()
                 .login()
-                .putCredentials("bukasik82@gmail.com", "Capstone1")
+                .putCredentials("bvik.ua@gmail.com", "Capstone1")
                 .loginIn()
                 .createPlaylistFromButton();
 
@@ -97,6 +97,16 @@ public class AppTest extends BaseTest {
                 .checkPlaylistNameFromPane();
 
         Assert.assertEquals(nameFromPane, nameFromList);
+
+
+//Delete a playlist for possibility to run without manual deleting
+
+    PlaylistModule playlistListDelete = new PlaylistModule(webDriver);
+    playlistListDelete
+            .invokeRCMForJustCreatedPlaylist()
+            .selectDeleteMenu()
+            .invokeRCMForJustCreatedPlaylist();
+
     }
 
 
@@ -106,7 +116,7 @@ public class AppTest extends BaseTest {
         indexPage
                 .open()
                 .login()
-                .putCredentials("bvik.ua@gmail.com", "Capstone1")
+                .putCredentials("bukasik82@gmail.com", "Capstone1")
                 .loginIn()
                 .createPlaylistFromPlusButton()
                 .selectCreateANewPlaylistMenu()
@@ -126,6 +136,7 @@ public class AppTest extends BaseTest {
         Assert.assertEquals(nameFromPane, nameFromList);
     }
 
+
     @Test(priority = 6)
     public void searchAndAddToPlaylistTest() {
         IndexPage indexPage = new IndexPage(webDriver);
@@ -134,6 +145,11 @@ public class AppTest extends BaseTest {
                 .login()
                 .putCredentials("bukasik82@gmail.com", "Capstone1")
                 .loginIn()
+                .createPlaylistFromPlusButton()
+                .selectCreateANewPlaylistMenu();
+
+        HomePage homePage = new HomePage(webDriver);
+        homePage
                 .invokeSearchMenu()
                 .selectSerchInput("Whitney Elizabeth Houston")
                 .selectSongsList()
@@ -157,13 +173,21 @@ public class AppTest extends BaseTest {
                 .open()
                 .login()
                 .putCredentials("bukasik82@gmail.com", "Capstone1")
-                .loginIn();
+                .loginIn()
+                .createPlaylistFromPlusButton()
+                .selectCreateANewPlaylistMenu();
 
-        PlaylistModule playlistList = new PlaylistModule(webDriver);
-        String actualMessage = playlistList
+        HomePage homePage = new HomePage(webDriver);
+        String actualMessage = homePage
+                .invokeSearchMenu()
+                .selectSerchInput("Whitney Elizabeth Houston")
+                .selectSongsList()
+                .selectSongFromList("I Have Nothing")
+                .selectAddToPlaylistMenu()
+                .attachToJustCreatedPlaylist()
                 .selectJustCreatedPlaylist()
                 .selectASongInPlaylistForRCM("I Have Nothing")
-                .selectremoveFromPlaylistMenu()
+                .selectRemoveFromPlaylistMenu()
                 .findASongInPlaylist("I Have Nothing");
 
         Assert.assertEquals(actualMessage, "The song was not found in the playlist.");
@@ -177,7 +201,9 @@ public class AppTest extends BaseTest {
                 .open()
                 .login()
                 .putCredentials("bukasik82@gmail.com", "Capstone1")
-                .loginIn();
+                .loginIn()
+                .createPlaylistFromPlusButton()
+                .selectCreateANewPlaylistMenu();
 
         PlaylistModule playlistList = new PlaylistModule(webDriver);
         String playlistName = playlistList

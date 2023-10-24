@@ -44,7 +44,9 @@ public class LoginPage extends BasePage {
         return this;
     }
     public HomePage loginIn() {
+
         WebElement option = waitForVisibilityOf(loginInButton);
+        option.click();
         option.click();
         return new HomePage(webDriver);
     }

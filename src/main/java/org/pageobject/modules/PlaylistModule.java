@@ -45,16 +45,6 @@ public class PlaylistModule extends BasePage {
         return nameFromPane;
     }
 
-//    public PlaylistRCMModule editPlaylistFromList() {
-//        WebElement option = waitForVisibilityOf(createdPlaylistFromList);
-//        option.click();
-//
-//        Actions actions = new Actions(webDriver);
-//        actions.contextClick(option).perform();
-//
-//        return new PlaylistRCMModule(webDriver);
-//    }
-
     public String findASongInPlaylist(String value) {
 
             By songXPath = By.xpath("//div[@data-testid='tracklist-row' and .//div[contains(@class, 'Type__TypeElement') and text()='" + value + "']]");
@@ -98,6 +88,5 @@ public class PlaylistModule extends BasePage {
             return "The playlist was not found in the playlist.";
         }
     }
-
 
 }

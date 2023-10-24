@@ -17,13 +17,7 @@ public class DeleteQuestionModule extends BasePage {
     public PlaylistModule invokeRCMForJustCreatedPlaylist() {
         WebElement option = waitForVisibilityOf(deleteButton);
 
-       option.click();
-
-        try {
-            Thread.sleep(1000); // Пауза в 1 секунду
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        option.click();
 
         webDriver.navigate().refresh();
 

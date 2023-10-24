@@ -25,12 +25,6 @@ public class EditDetailsModule extends BasePage {
         WebElement save = waitForVisibilityOf(saveButton);
         save.click();
 
-        try {
-            Thread.sleep(1000); // Пауза в 1 секунду
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return new PlaylistModule(webDriver);
     }
 }

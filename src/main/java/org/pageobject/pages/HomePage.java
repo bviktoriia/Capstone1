@@ -22,7 +22,7 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@aria-label='Search']")
     private WebElement searchButton;
 
-    protected  HomePage (WebDriver webDriver) {
+    public HomePage (WebDriver webDriver) {
 
         super(webDriver);
  }
