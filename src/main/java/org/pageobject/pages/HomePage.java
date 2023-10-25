@@ -4,12 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.pageobject.BasePage;
-import org.pageobject.modules.PlaylistModule;
-import org.pageobject.modules.PlusButtonModule;
+import org.pageobject.UtilitiesPage;
+import org.pageobject.modules.YourLibraryModule;
 import org.pageobject.modules.SearchMenuModule;
 import org.pageobject.modules.UserInfoModule;
 
 public class HomePage extends BasePage {
+
+    private UtilitiesPage utilityPage;
 
     @FindBy(xpath = "//button[@class='Button-sc-1dqy6lx-0 grWQsc encore-over-media-set SFgYidQmrqrFEVh65Zrg']")
     private WebElement userButton;
@@ -23,30 +25,26 @@ public class HomePage extends BasePage {
     private WebElement searchButton;
 
     public HomePage (WebDriver webDriver) {
-
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
  }
     public UserInfoModule openUserInfoModule() {
-        WebElement option = waitForVisibilityOf(userButton);
-        option.click();
+        utilityPage.waitForVisibilityOf(userButton).click();
         return new UserInfoModule(webDriver);
     }
 
-    public PlaylistModule createPlaylistFromButton() {
-        WebElement option = waitForVisibilityOf(createPlaylistButton);
-        option.click();
-        return new PlaylistModule(webDriver);
+    public YourLibraryModule createPlaylistFromButton() {
+        utilityPage.waitForVisibilityOf(createPlaylistButton).click();
+        return new YourLibraryModule(webDriver);
     }
 
-    public PlusButtonModule createPlaylistFromPlusButton() {
-        WebElement option = waitForVisibilityOf(plusButton);
-        option.click();
-        return new PlusButtonModule(webDriver);
+    public YourLibraryModule createPlaylistFromPlusButton() {
+        utilityPage.waitForVisibilityOf(plusButton).click();
+        return new YourLibraryModule(webDriver);
     }
     public SearchMenuModule invokeSearchMenu() {
         webDriver.navigate().refresh();
-        WebElement option = waitForVisibilityOf(searchButton);
-        option.click();
+        utilityPage.waitForVisibilityOf(searchButton).click();
         return new SearchMenuModule(webDriver);
     }
 

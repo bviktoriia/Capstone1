@@ -1,11 +1,19 @@
 package org.pageobject.modules;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.BasePage;
+import org.pageobject.UtilitiesPage;
+
+import java.time.Duration;
 
 public class EditDetailsModule extends BasePage {
+
+    private UtilitiesPage utilityPage;
 
     @FindBy(xpath = "//input[@data-testid='playlist-edit-details-name-input']")
     private WebElement playlistNameField;
@@ -15,16 +23,19 @@ public class EditDetailsModule extends BasePage {
 
     public EditDetailsModule(WebDriver webDriver) {
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
     }
 
-    public PlaylistModule renamePlaylist(String value) {
-        WebElement option = waitForVisibilityOf(playlistNameField);
-        option.clear();
-        option.sendKeys(value);
+    public YourLibraryModule renamePlaylist(String value) {
+        utilityPage.waitForVisibilityOf(playlistNameField).clear();
+        playlistNameField.sendKeys(value);
 
-        WebElement save = waitForVisibilityOf(saveButton);
-        save.click();
+        utilityPage.waitForVisibilityOf(saveButton).click();
 
-        return new PlaylistModule(webDriver);
+        By playlist = By.xpath("//li[@aria-posinset=1]//span[contains(., '"+ value + "')]");
+        WebElement editPlaylist = new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(playlist));
+
+        return new YourLibraryModule(webDriver);
     }
 }

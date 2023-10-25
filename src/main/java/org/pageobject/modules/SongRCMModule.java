@@ -4,8 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.pageobject.BasePage;
+import org.pageobject.UtilitiesPage;
 
 public class SongRCMModule extends BasePage {
+
+    private UtilitiesPage utilityPage;
 
     @FindBy(xpath = "//span[contains(text(), 'Add to playlist')]")
     private WebElement addToPlaylistMenu;
@@ -15,17 +18,16 @@ public class SongRCMModule extends BasePage {
 
     public SongRCMModule(WebDriver webDriver) {
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
     }
 
     public SongRCMAddToPlaylistRCMModule selectAddToPlaylistMenu() {
-        WebElement option = waitForVisibilityOf(addToPlaylistMenu);
-        option.click();
+        utilityPage.waitForVisibilityOf(addToPlaylistMenu).click();
          return new SongRCMAddToPlaylistRCMModule(webDriver);
     }
 
-    public PlaylistModule selectRemoveFromPlaylistMenu() {
-        WebElement option = waitForVisibilityOf(removeFromPlaylistMenu);
-        option.click();
+    public YourLibraryModule selectRemoveFromPlaylistMenu() {
+        utilityPage.waitForVisibilityOf(removeFromPlaylistMenu).click();
 
         try {
             Thread.sleep(1000); // Пауза в 1 секунду
@@ -33,6 +35,6 @@ public class SongRCMModule extends BasePage {
             e.printStackTrace();
         }
 
-        return new PlaylistModule(webDriver);
+        return new YourLibraryModule(webDriver);
     }
 }

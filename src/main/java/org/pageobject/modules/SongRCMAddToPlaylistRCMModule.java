@@ -6,23 +6,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.BasePage;
+import org.pageobject.UtilitiesPage;
 
 import java.time.Duration;
 
 public class SongRCMAddToPlaylistRCMModule extends BasePage {
 
+    private UtilitiesPage utilityPage;
+
     public SongRCMAddToPlaylistRCMModule(WebDriver webDriver) {
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
     }
-    public PlaylistModule attachToJustCreatedPlaylist() {
-        PlaylistModule playlist = new PlaylistModule(webDriver);
-        String playlistName = playlist.checkPlaylistNameFromList(); // Получите имя плейлиста
+    public YourLibraryModule attachToJustCreatedPlaylist() {
+        YourLibraryModule playlist = new YourLibraryModule(webDriver);
+        String playlistName = playlist.checkPlaylistNameFromList(); // Имя плейлиста
 
-        By playlistXPath = By.xpath("//button[@class='wC9sIed7pfp47wZbmU6m']/span[contains(., '" + playlistName + "')][1]");
-        WebElement option = new WebDriverWait(webDriver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(playlistXPath));
-
-        option.click();
+        WebElement playlistXPath = new WebDriverWait(webDriver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='wC9sIed7pfp47wZbmU6m']/span[contains(., '" + playlistName + "')][1]")));
+        playlistXPath.click();
 
         try {
             Thread.sleep(1000); // Пауза в 1 секунду
@@ -32,6 +34,6 @@ public class SongRCMAddToPlaylistRCMModule extends BasePage {
 
         webDriver.navigate().refresh();
 
-        return new PlaylistModule(webDriver);
+        return new YourLibraryModule(webDriver);
     }
 }

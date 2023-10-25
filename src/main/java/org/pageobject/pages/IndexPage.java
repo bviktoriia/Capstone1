@@ -3,17 +3,16 @@ package org.pageobject.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.BasePage;
-
-import java.time.Duration;
+import org.pageobject.UtilitiesPage;
 
 public class IndexPage extends BasePage {
+    private UtilitiesPage utilityPage;
     @FindBy(xpath = "//button[@data-testid='login-button']")
     private WebElement loginButton;
     public IndexPage (WebDriver webDriver){
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
     }
 
     public IndexPage open() {
@@ -21,8 +20,7 @@ public class IndexPage extends BasePage {
         return this;
     }
     public LoginPage login() {
-        WebElement option = waitForVisibilityOf(loginButton);
-        option.click();
+        utilityPage.waitForVisibilityOf(loginButton).click();
         return new LoginPage(webDriver);
     }
 

@@ -8,22 +8,25 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pageobject.BasePage;
+import org.pageobject.UtilitiesPage;
 
 import java.time.Duration;
 
 
 public class SearchResultModule extends BasePage {
 
+    private UtilitiesPage utilityPage;
+
     @FindBy(xpath = "//button/span[contains(text(), 'Songs')]")
     private WebElement songsFilter;
 
     public SearchResultModule(WebDriver webDriver) {
         super(webDriver);
+        utilityPage = new UtilitiesPage(webDriver);
     }
 
     public SearchResultModule selectSongsList() {
-        WebElement option = waitForVisibilityOf(songsFilter);
-        option.click();
+        utilityPage.waitForVisibilityOf(songsFilter).click();
         return this;
     }
 

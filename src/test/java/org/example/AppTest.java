@@ -1,18 +1,13 @@
 package org.example;
 
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.pageobject.modules.PlaylistModule;
+import org.pageobject.modules.YourLibraryModule;
 import org.pageobject.pages.HomePage;
 import org.pageobject.pages.IndexPage;
+import org.pageobject.pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 
 public class AppTest extends BaseTest {
@@ -21,18 +16,19 @@ public class AppTest extends BaseTest {
     @Test(priority = 1)
     public void loginWithEmptyCredentialsTest() {
         IndexPage indexPage = new IndexPage(webDriver);
-        indexPage
+        String textOfErrorUserName = indexPage
                 .open()
                 .login()
                 .putCredentials("user", "password")
-                .clearInputs();
+                .clearInputs()
+                .checkTextOfErrorUserName();
 
-        WebElement errorUserName = waitForVisibilityOf(webDriver.findElement(By.xpath("//p[contains(text(), 'Please enter your Spotify username or email address.')]")));
-        String textOfErrorUserName = errorUserName.getText();
         Assert.assertEquals(textOfErrorUserName, "Please enter your Spotify username or email address.");
 
-        WebElement errorPassword = waitForVisibilityOf(webDriver.findElement(By.xpath("//span[contains(text(), 'Please enter your password.')]")));
-        String textOfErrorPassword = errorPassword.getText();
+        LoginPage loginPage = new LoginPage(webDriver);
+        String textOfErrorPassword = loginPage
+                .checkTextOfErrorPassword();
+
         Assert.assertEquals(textOfErrorPassword, "Please enter your password.");
     }
 
@@ -53,11 +49,10 @@ public class AppTest extends BaseTest {
                 .putCredentials(username, password)
                 .loginIn();
 
-        By bannerXPath = By.xpath("//span[contains(text(), 'Incorrect username or password.')]");
-        WebElement banner = new WebDriverWait(webDriver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(bannerXPath));
+        LoginPage banerPage = new LoginPage(webDriver);
+        String textOfErrorMessage = banerPage
+                .checkTheBanner();
 
-        String textOfErrorMessage = banner.getText();
         Assert.assertEquals(textOfErrorMessage, "Incorrect username or password.");
     }
 
@@ -88,21 +83,20 @@ public class AppTest extends BaseTest {
                 .loginIn()
                 .createPlaylistFromButton();
 
-        PlaylistModule playlistNameFromList = new PlaylistModule(webDriver);
-        String nameFromList = playlistNameFromList
+        YourLibraryModule playlistName = new YourLibraryModule(webDriver);
+
+        String nameFromList = playlistName
                 .checkPlaylistNameFromList();
 
-        PlaylistModule playlistNameFromPane = new PlaylistModule(webDriver);
-        String nameFromPane = playlistNameFromPane
+        String nameFromPane = playlistName
                 .checkPlaylistNameFromPane();
 
         Assert.assertEquals(nameFromPane, nameFromList);
 
 
 //Delete a playlist for possibility to run without manual deleting
-
-    PlaylistModule playlistListDelete = new PlaylistModule(webDriver);
-    playlistListDelete
+        YourLibraryModule deletePlaylist = new YourLibraryModule(webDriver);
+        deletePlaylist
             .invokeRCMForJustCreatedPlaylist()
             .selectDeleteMenu()
             .invokeRCMForJustCreatedPlaylist();
@@ -113,7 +107,7 @@ public class AppTest extends BaseTest {
     @Test(priority = 5)
     public void editDetailsOfPlaylistTest() {
         IndexPage indexPage = new IndexPage(webDriver);
-        indexPage
+        String nameFromList = indexPage
                 .open()
                 .login()
                 .putCredentials("bukasik82@gmail.com", "Capstone1")
@@ -122,18 +116,17 @@ public class AppTest extends BaseTest {
                 .selectCreateANewPlaylistMenu()
                 .invokeRCMForJustCreatedPlaylist()
                 .selectEditDetailsMenu()
-                .renamePlaylist("My favorite playlist");
-
-        PlaylistModule playlistList = new PlaylistModule(webDriver);
-        String nameFromList = playlistList
+                .renamePlaylist("My favorite playlist")
                 .selectJustCreatedPlaylist()
                 .checkPlaylistNameFromList();
 
-        PlaylistModule playlistPane = new PlaylistModule(webDriver);
-        String nameFromPane = playlistPane
-                .checkPlaylistNameFromPane();
+        YourLibraryModule yourLibraryPage = new YourLibraryModule(webDriver);
+        String nameFromPane = yourLibraryPage
+                .checkPlaylistNameFromList();
 
-        Assert.assertEquals(nameFromPane, nameFromList);
+        Assert.assertEquals(nameFromList, "My favorite playlist");
+        Assert.assertEquals(nameFromPane, "My favorite playlist");
+
     }
 
 
@@ -157,7 +150,7 @@ public class AppTest extends BaseTest {
                 .selectAddToPlaylistMenu()
                 .attachToJustCreatedPlaylist();
 
-        PlaylistModule playlistList = new PlaylistModule(webDriver);
+        YourLibraryModule playlistList = new YourLibraryModule(webDriver);
         String actualMessage = playlistList
                 .selectJustCreatedPlaylist()
                 .findASongInPlaylist("I Have Nothing");
@@ -205,13 +198,12 @@ public class AppTest extends BaseTest {
                 .createPlaylistFromPlusButton()
                 .selectCreateANewPlaylistMenu();
 
-        PlaylistModule playlistList = new PlaylistModule(webDriver);
+        YourLibraryModule playlistList = new YourLibraryModule(webDriver);
         String playlistName = playlistList
                 .selectJustCreatedPlaylist()
                 .checkPlaylistNameFromList();
 
-        PlaylistModule playlistListDelete = new PlaylistModule(webDriver);
-        String actualMessage = playlistListDelete
+        String actualMessage = playlistList
                 .invokeRCMForJustCreatedPlaylist()
                 .selectDeleteMenu()
                 .invokeRCMForJustCreatedPlaylist()
