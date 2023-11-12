@@ -43,7 +43,7 @@ public class HomePage extends BasePage {
         return new YourLibraryModule(webDriver);
     }
     public SearchMenuModule invokeSearchMenu() {
-        webDriver.navigate().refresh();
+//        webDriver.navigate().refresh();
         utilityPage.waitForVisibilityOf(searchButton).click();
         return new SearchMenuModule(webDriver);
     }

@@ -1,16 +1,35 @@
 package org.example;
 
+import org.example.dto.AccessToken;
 
 import org.pageobject.modules.YourLibraryModule;
 import org.pageobject.pages.HomePage;
 import org.pageobject.pages.IndexPage;
 import org.pageobject.pages.LoginPage;
+
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static org.example.dto.AccessToken.isTokenExpired;
 
-public class AppTest extends BaseTest {
+
+public class AppTestUI extends BaseTest {
+
+    @BeforeMethod(enabled = false)
+    public void setUp() {
+        if (AccessToken.accessToken == null) {
+            AccessToken.loadTokenFromFile();
+
+            if (AccessToken.accessToken == null) {
+                AccessToken.receiveToken();
+            } else if (isTokenExpired()) {
+                AccessToken.refreshToken();
+            }
+            accessToken = AccessToken.accessToken;
+        }
+    }
 
 
     @Test(priority = 1)
@@ -146,14 +165,14 @@ public class AppTest extends BaseTest {
                 .invokeSearchMenu()
                 .selectSerchInput("Whitney Elizabeth Houston")
                 .selectSongsList()
-                .selectSongFromList("I Have Nothing")
+                .selectSongFromList("Run to You")
                 .selectAddToPlaylistMenu()
                 .attachToJustCreatedPlaylist();
 
         YourLibraryModule playlistList = new YourLibraryModule(webDriver);
         String actualMessage = playlistList
                 .selectJustCreatedPlaylist()
-                .findASongInPlaylist("I Have Nothing");
+                .findASongInPlaylist("Run to You");
 
         Assert.assertEquals(actualMessage, "The song was successfully added to the playlist.");
     }
@@ -175,13 +194,13 @@ public class AppTest extends BaseTest {
                 .invokeSearchMenu()
                 .selectSerchInput("Whitney Elizabeth Houston")
                 .selectSongsList()
-                .selectSongFromList("I Have Nothing")
+                .selectSongFromList("Run to You")
                 .selectAddToPlaylistMenu()
                 .attachToJustCreatedPlaylist()
                 .selectJustCreatedPlaylist()
-                .selectASongInPlaylistForRCM("I Have Nothing")
+                .selectASongInPlaylistForRCM("Run to You")
                 .selectRemoveFromPlaylistMenu()
-                .findASongInPlaylist("I Have Nothing");
+                .findASongInPlaylist("Run to You");
 
         Assert.assertEquals(actualMessage, "The song was not found in the playlist.");
     }
