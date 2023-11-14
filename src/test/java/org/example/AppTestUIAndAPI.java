@@ -3,16 +3,32 @@ package org.example;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.example.dto.UserCredentials;
+import org.example.utils.UserCredentials;
 import org.pageobject.modules.YourLibraryModule;
 import org.pageobject.pages.IndexPage;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class AppTestUIAndAPI extends BaseTest {
 
     private static final String BASE_URL_USERS = "https://api.spotify.com/v1";
     private static final String userId = UserCredentials.getUserId();
+
+    @BeforeMethod
+    public void startTest(){
+        setUpApiToken();
+        setUpWebDriver();
+        // TODO it is just example how to setup tests
+    }
+
+    @AfterMethod
+    public void tearDownTest(){
+        tearDownDriver();
+        // TODO it is just example how to setup tests
+    }
 
     @Test(priority = 1)
     public void addSongToPlaylistTest() {
@@ -94,7 +110,7 @@ public class AppTestUIAndAPI extends BaseTest {
 
 // This pause is needed due to playlist name is not updated immediately. It can be increased.
         try {
-            Thread.sleep(60000); // Пауза в 1 секунду
+            Thread.sleep(120000); // Пауза в 1 секунду
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -117,7 +133,5 @@ public class AppTestUIAndAPI extends BaseTest {
 
         Assert.assertEquals(nameFromPane, "Updated My Playlist for UIandAPI Test2");
         Assert.assertEquals(nameFromList, "Updated My Playlist for UIandAPI Test2");
-
     }
-
 }

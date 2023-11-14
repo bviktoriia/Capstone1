@@ -1,36 +1,31 @@
 package org.example;
 
-import org.example.dto.AccessToken;
+import org.example.utils.AccessToken;
 
+import org.factory.WebDriverFactory;
 import org.pageobject.modules.YourLibraryModule;
 import org.pageobject.pages.HomePage;
 import org.pageobject.pages.IndexPage;
 import org.pageobject.pages.LoginPage;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import static org.example.dto.AccessToken.isTokenExpired;
+import static org.example.utils.AccessToken.isTokenExpired;
 
 
 public class AppTestUI extends BaseTest {
 
-    @BeforeMethod(enabled = false)
-    public void setUp() {
-        if (AccessToken.accessToken == null) {
-            AccessToken.loadTokenFromFile();
-
-            if (AccessToken.accessToken == null) {
-                AccessToken.receiveToken();
-            } else if (isTokenExpired()) {
-                AccessToken.refreshToken();
-            }
-            accessToken = AccessToken.accessToken;
-        }
+    @BeforeClass
+    public void setupUITests(){
+        webDriver = new WebDriverFactory().getWebDriver();
+        webDriver.manage().window().maximize();
     }
 
+    @AfterClass
+    public void tearDownUITests(){
+
+    }
 
     @Test(priority = 1)
     public void loginWithEmptyCredentialsTest() {
@@ -145,9 +140,7 @@ public class AppTestUI extends BaseTest {
 
         Assert.assertEquals(nameFromList, "My favorite playlist");
         Assert.assertEquals(nameFromPane, "My favorite playlist");
-
     }
-
 
     @Test(priority = 6)
     public void searchAndAddToPlaylistTest() {
@@ -230,7 +223,4 @@ public class AppTestUI extends BaseTest {
 
         Assert.assertEquals(actualMessage, "The playlist was not found in the playlist.");
     }
-
-
 }
-

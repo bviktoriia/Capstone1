@@ -3,36 +3,44 @@ package org.example;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.example.dto.UserCredentials;
+import org.example.dto.PlaylistResponse;
+import org.example.utils.UserCredentials;
 import org.factory.WebDriverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.given;
 
 
 public class AppTestAPI extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(AppTestAPI.class);
-    private static final String BASE_URL_USERS = "https://api.spotify.com/v1";
+    private static final String BASE_URL_USERS = "";
     private static final String clientId = UserCredentials.getClientId();
     private static final String userId = UserCredentials.getUserId();
 
-    @BeforeMethod(enabled = false)
-    protected void setUpWebDriver() {
-        webDriver = new WebDriverFactory().getWebDriver();
-        webDriver.manage().window().maximize();
+    @BeforeClass
+    public void setUpApi(){
+//          RestAssured.baseURI("https://api.spotify.com/v1");
+        // TODO inmplement one time setup baseUri
     }
 
-    @AfterMethod(enabled = false)
-    protected void quit() {
-        webDriver.quit();
+    @BeforeMethod
+    public void setUpTestMethod(){
+//        var token= setToken()
+        setUpApi();
+        // TODO it is just example how to setup tests
     }
 
-
-    @Test(priority = 1)
+    @Test
     public void createPlaylistTest() {
+
+        var requestEntity = new PlaylistResponse();
+        requestEntity.setId(10);
+        requestEntity.setName("Some name");
 
         String requestBodyPlaylist = "{"
                 + "\"name\": \"Playlist for Test1\","
@@ -40,19 +48,22 @@ public class AppTestAPI extends BaseTest {
                 + "\"public\": false"
                 + "}";
 
-        Response response = RestAssured.given()
+        var response = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestBodyPlaylist)
                 .post(BASE_URL_USERS + "/users/" + userId + "/playlists")
                 .then()
-                .extract()
-                .response();
+                .statusCode(201)
+                .extract().as(PlaylistResponse.class);
 
-        Assert.assertEquals(response.getStatusCode(), 201);
+        // TODO example how to extract entity
+        var test = response.getId();
+
+//        Assert.assertEquals(response.getStatusCode(), 201);
     }
 
-    @Test(priority = 2)
+    @Test
     public void editDetailsOfThePlaylistTest() {
 
         String requestBodyPlaylist = "{"
@@ -61,16 +72,17 @@ public class AppTestAPI extends BaseTest {
                 + "\"public\": false"
                 + "}";
 
-        Response response = RestAssured.given()
+        Response response = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestBodyPlaylist)
                 .post(BASE_URL_USERS + "/users/" + userId + "/playlists")
                 .then()
+                .statusCode(201)
                 .extract()
                 .response();
 
-        Assert.assertEquals(response.getStatusCode(), 201);
+//        Assert.assertEquals(response.getStatusCode(), 201);
         String playlistId = response.jsonPath().getString("id");
 
 
@@ -80,7 +92,7 @@ public class AppTestAPI extends BaseTest {
                 + "\"public\": false"
                 + "}";
 
-        Response response2 = RestAssured.given()
+        Response response2 = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestBodyEditPlaylist)
@@ -92,7 +104,7 @@ public class AppTestAPI extends BaseTest {
         Assert.assertEquals(response2.getStatusCode(), 200);
     }
 
-    @Test(priority = 3)
+    @Test
     public void addItemsToPlaylistTest() {
 
         String requestBodyPlaylist = "{"
@@ -101,7 +113,7 @@ public class AppTestAPI extends BaseTest {
                 + "\"public\": false"
                 + "}";
 
-        Response response = RestAssured.given()
+        Response response = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestBodyPlaylist)
@@ -113,17 +125,18 @@ public class AppTestAPI extends BaseTest {
         Assert.assertEquals(response.getStatusCode(), 201);
         String playlistId = response.jsonPath().getString("id");
 
+        var trackId = "5KD6AEm19QnMbfWpfoOHMl";
         String requestBodyItem = "{"
                 + "\"uris\": ["
-                + "  \"5KD6AEm19QnMbfWpfoOHMl\""
+                + "  \"" + trackId + "\""
                 + "],"
                 + "\"position\": 0"
                 + "}";
 
-        Response response2 = RestAssured.given()
+        Response response2 = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
-                .queryParam("uris", "spotify:track:5KD6AEm19QnMbfWpfoOHMl")
+                .queryParam("uris", "spotify:track:" + trackId)
                 .body(requestBodyItem)
                 .post(BASE_URL_USERS + "/playlists/" + playlistId + "/tracks")
                 .then()
@@ -142,7 +155,7 @@ public class AppTestAPI extends BaseTest {
                 + "\"public\": false"
                 + "}";
 
-        Response response = RestAssured.given()
+        Response response = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestBodyPlaylist)
@@ -161,7 +174,7 @@ public class AppTestAPI extends BaseTest {
                 + "\"position\": 0"
                 + "}";
 
-        Response response2 = RestAssured.given()
+        Response response2 = given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .queryParam("uris", "spotify:track:4yIfjMoivhXnY9lZkoVntq")
@@ -183,30 +196,12 @@ public class AppTestAPI extends BaseTest {
                 + "\"snapshot_id\": \"" + snapshotId + "\""
                 + "}";
 
-        Response response3 = RestAssured.given()
+        given()
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .body(requestDeleteItem)
                 .delete(BASE_URL_USERS + "/playlists/" + playlistId + "/tracks")
                 .then()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        Assert.assertEquals(response3.getStatusCode(), 200);
+                .statusCode(200);
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.utils;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
-
-
 
 public class SpotifyAuthorizationCode {
     private static final Logger logger = Logger.getLogger(SpotifyAuthorizationCode.class.getName());
@@ -30,7 +28,7 @@ public class SpotifyAuthorizationCode {
         Response response = requestSpec.get("/authorize");
 
         if (response.getStatusCode() == 200) {
-            System.out.println("GET request is successful");
+            logger.info("GET request is successful"); // TODO logger to output
             String authorizationURL = "https://accounts.spotify.com/authorize" +
                     "?client_id=" + clientId +
                     "&response_type=" + responseType +
@@ -46,34 +44,7 @@ public class SpotifyAuthorizationCode {
             }
 
         } else {
-            System.err.println("Error GET request");
+            System.err.println("Error GET request"); // TODO logger.error
         }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

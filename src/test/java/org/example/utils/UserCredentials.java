@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.utils;
 
 public class UserCredentials {
 
