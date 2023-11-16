@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="638121f8-3e9c-42d2-a81a-1f04fa7115a0" name="Changes" comment="Fixed 3" />
+    <list default="true" id="638121f8-3e9c-42d2-a81a-1f04fa7115a0" name="Changes" comment="Fixed 3">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +33,7 @@
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
         <option name="accountId" value="4ad7d1b2-d51f-4c9e-855d-2c749f3d3cef" />
-        <option name="url" value="https://github.com/bviktoriia/Capstone1.git" />
+        <option name="url" value="https://github.com/bviktoriia/Capstone_Spotify.git" />
       </UrlAndAccount>
     </option>
   </component>
