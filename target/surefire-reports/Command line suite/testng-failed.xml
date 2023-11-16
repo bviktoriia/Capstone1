@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Command line suite]" verbose="0">
+  <test thread-count="5" name="Command line test(failed)" verbose="0">
+    <classes>
+      <class name="org.example.AppUITest">
+        <methods>
+          <include name="tearDownUITests"/>
+          <include name="removeSongFromPlaylistTest"/>
+          <include name="setupUITests"/>
+          <include name="createPlaylistTest"/>
+        </methods>
+      </class> <!-- org.example.AppUITest -->
+      <class name="org.example.AppUIAndAPITest">
+        <methods>
+          <include name="setupUIAndAPITests"/>
+          <include name="tearDownUIAndAPITest"/>
+          <include name="editDetailsOfThePlaylistTest"/>
+          <include name="setUpApi"/>
+        </methods>
+      </class> <!-- org.example.AppUIAndAPITest -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->

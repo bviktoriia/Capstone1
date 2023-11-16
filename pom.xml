@@ -1,12 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.epam</groupId>
     <artifactId>Capstone_Spotify</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Capstone1</name>
+
+    <name>Capstone_Spotify</name>
     <url>http://maven.apache.org</url>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -14,6 +17,7 @@
         <allure.version>2.24.0</allure.version>
         <aspectj.version>1.9.20.1</aspectj.version>
     </properties>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
     <dependency>
@@ -42,7 +46,7 @@
     <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <version>4.13.2</version>
         <scope>test</scope>
     </dependency>
     <dependency>
@@ -51,24 +55,63 @@
          <version>5.3.2</version>
          <scope>test</scope>
     </dependency>
-    <dependency>
-         <groupId>com.google.code.gson</groupId>
-         <artifactId>gson</artifactId>
-         <version>2.10.1</version>
-    </dependency>
-    <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-annotations</artifactId>
-         <version>2.13.0</version> <!-- Укажите актуальную версию Jackson -->
-    </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>2.34</version> <!-- Указать актуальную версию -->
-        </dependency>
-
 
 </dependencies>
+    <profiles>
+        <profile>
+            <id>test-class-1</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>org.example.AppUITest</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>test-class-2</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>org.example.AppAPITest</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>test-class-3</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <includes>
+                                <include>org.example.AppUIAndAPITest</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

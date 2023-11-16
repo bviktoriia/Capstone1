@@ -61,16 +61,16 @@ public class YourLibraryModule extends BasePage {
         return new YourLibraryModule(webDriver);
     }
 
-    public String findASongInPlaylist(String value) {
+    public boolean findASongInPlaylist(String value) {
 
             By songXPath = By.xpath("//div[@data-testid='tracklist-row' and .//div[contains(@class, 'Type__TypeElement') and text()='" + value + "']]");
 
             try {
                 new WebDriverWait(webDriver, Duration.ofSeconds(10))
                         .until(ExpectedConditions.visibilityOfElementLocated(songXPath));
-                return "The song was successfully added to the playlist.";
+                return true;
             } catch (TimeoutException e) {
-                return "The song was not found in the playlist.";
+                return false;
             }
     }
 
@@ -91,16 +91,16 @@ public class YourLibraryModule extends BasePage {
 
         return new PlaylistRCMModule(webDriver);
     }
-    public String findAPlaylist(String value) {
+    public boolean findAPlaylist(String value) {
 
         By playlistXPath = By.xpath("//li[@role='listitem' and @aria-posinset='1'][.//span[contains(@class, 'ListRowTitle__LineClamp') and text()='" + value +"']]");
 
         try {
             new WebDriverWait(webDriver, Duration.ofSeconds(10))
                     .until(ExpectedConditions.visibilityOfElementLocated(playlistXPath));
-            return "The playlist was successfully added to the playlist.";
+            return true;
         } catch (TimeoutException e) {
-            return "The playlist was not found in the playlist.";
+            return false;
         }
     }
 
