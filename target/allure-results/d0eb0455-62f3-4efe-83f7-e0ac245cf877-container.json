@@ -1,1 +1,0 @@
-{"uuid":"d0eb0455-62f3-4efe-83f7-e0ac245cf877","name":"org.example.AppAPITest","children":["a3ba4839-9ac9-478e-b0d4-3c09208c5568"],"befores":[{"name":"setUpApi","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1700117593408,"stop":1700117593695}],"afters":[],"start":1700117593382,"stop":1700117595382}
