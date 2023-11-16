@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="638121f8-3e9c-42d2-a81a-1f04fa7115a0" name="Changes" comment="Fixed 3">
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/dto/AccessToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/dto/AccessToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/refresh_token.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/refresh_token.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/token.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/token.properties" afterDir="false" />
-    </list>
+    <list default="true" id="638121f8-3e9c-42d2-a81a-1f04fa7115a0" name="Changes" comment="Fixed 3" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -216,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699824398664</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed 3">
+      <created>1700131444189</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700131444189</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
